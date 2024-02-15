@@ -1,12 +1,11 @@
-async function connect(user: string): Promise<{success: boolean, payload: any}>{
-    console.log("API_TOKEN", process.env.NEXT_PUBLIC_API_TOKEN);
+async function getUser(user: string): Promise<{ success: boolean, payload: any }> {
     return fetch("https://api.github.com/users/" + user, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
         },
-    
+
     })
         .then((res) => res.json())
         .then(
@@ -19,4 +18,23 @@ async function connect(user: string): Promise<{success: boolean, payload: any}>{
         );
 }
 
-export default connect;
+async function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
+        },
+    })
+        .then((res) => res.json())
+        .then(
+            (result) => {
+                return { 'success': true, 'payload': result };
+            },
+            (error) => {
+                return { 'success': false, 'payload': error };
+            }
+        );
+}
+
+export { getUser, getRepos };
