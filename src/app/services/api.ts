@@ -1,4 +1,4 @@
-async function getUser(user: string): Promise<{ success: boolean, payload: any }> {
+function getUser(user: string): Promise<{ success: boolean, payload: any }> {
     return fetch("https://api.github.com/users/" + user, {
         method: "GET",
         headers: {
@@ -18,7 +18,7 @@ async function getUser(user: string): Promise<{ success: boolean, payload: any }
         );
 }
 
-async function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
+function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
     return fetch(url, {
         method: "GET",
         headers: {
@@ -37,4 +37,9 @@ async function getRepos(url: string): Promise<{ success: boolean, payload: any }
         );
 }
 
-export { getUser, getRepos };
+function getLanguageColors(): Promise<any> {
+    return fetch('https://raw.githubusercontent.com/ozh/github-colors/master/colors.json')
+        .then((res) => res.json());
+}
+
+export { getUser, getRepos, getLanguageColors };
