@@ -72,9 +72,9 @@ export default function Home() {
               <div>
                 {userRepos.map((repo: any) => (
                   <div key={repo.id} className="flex flex-col">
-                    <section className="title-section flex flex-row">
-                      <p className="text-lg font-bold text-blue-700">{repo.name}</p>
-                      <p className="text-sm text-gray-600 capitalize">{repo.visibility}</p>
+                    <section className="title-section flex flex-row items-center">
+                      <p className="text-lg font-bold text-blue-700 mr-2">{repo.name}</p>
+                      <p className="text-xs font-bold px-1.5 text-gray-400 capitalize ring-1 ring-gray-400 rounded-full">{repo.visibility}</p>
                     </section>
                     <p className="text-sm">{repo.description}</p>
                     
@@ -95,7 +95,9 @@ export default function Home() {
                         <p className="text-sm">{repo.updated_at}</p>
                         
                     </div>
+                    <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
                   </div>
+                  
                 ))}
               </div>
             </div>
