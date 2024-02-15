@@ -1,10 +1,9 @@
-// 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
 async function connect(user: string): Promise<{success: boolean, payload: any}>{
     return fetch("https://api.github.com/users/" + user, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Bearer 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'
+            'Authorization': 'Bearer ' + process.env.API_TOKEN
         },
     
     })
