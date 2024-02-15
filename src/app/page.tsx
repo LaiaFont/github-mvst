@@ -4,7 +4,7 @@ import connect from "../app/services/api";
 
 export default function Home() {
   const [username, setUsername] = useState("");
-  const [userExists, setUserExists] = useState(true);
+  const [userExists, setUserExists] = useState(false);
   const [userData, setUserData] = useState({'avatar_url': '', 'name': '', 'bio': ''});
 
   async function searchUser(value: string) {
@@ -13,7 +13,7 @@ export default function Home() {
       setUserExists(response.success);
       setUserData(response.payload);
     } catch (error) {
-      setUserExists(false); // Set userExists to false if an error occurs
+      setUserExists(false);
     }
   }
 
@@ -41,11 +41,11 @@ export default function Home() {
           <div className="grid grid-cols-3">
             <div className="flex flex-col">
               <div>
-                <img src="https://avatars.githubusercontent.com/u/74786722?v=4" alt="User avatar" className="rounded-full ring-1 ring-inset ring-gray-300" />
+                <img src={userData.avatar_url} alt="User avatar" className="rounded-full ring-1 ring-inset ring-gray-300" />
               </div>
               <div>
-                <p className="text-2xl font-bold">Laia</p>
-                <p className="text-lg">AAAAAAAAAAAAAAAAAAA</p>
+                <p className="text-2xl font-bold">{ userData.name }</p>
+                <p className="text-lg">{ userData.bio }</p>
               </div>
             </div>
             <div className="col-span-2">
