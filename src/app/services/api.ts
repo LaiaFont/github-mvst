@@ -1,9 +1,10 @@
 async function connect(user: string): Promise<{success: boolean, payload: any}>{
+    console.log("API_TOKEN", process.env.NEXT_PUBLIC_API_TOKEN);
     return fetch("https://api.github.com/users/" + user, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + process.env.API_TOKEN
+            'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
         },
     
     })
