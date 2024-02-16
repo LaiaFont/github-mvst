@@ -25,6 +25,10 @@ export default function Home() {
     }
   }
 
+  async function filterRepos() {
+    
+  }
+
   return (
     <main className="flex min-h-screen flex-col p-24">
       <div>
@@ -66,8 +70,8 @@ export default function Home() {
                   className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   placeholder="Find a repository..."
                 />
-                <button className="block rounded-md border-0 mx-1 py-1.5 px-7 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200" onClick={() => searchUser(username)}>Type</button>
-                <button className="block rounded-md border-0 mx-1 py-1.5 px-7 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200" onClick={() => searchUser(username)}>Language</button>
+                <select className="block rounded-md border-0 mx-1 py-1.5 px-7 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200" onClick={() => filterRepos(username)}>Type</select>
+                <select className="block rounded-md border-0 mx-1 py-1.5 px-7 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200" onClick={() => filterRepos(username)}>Language</select>
               </div>
               <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
               <div>
