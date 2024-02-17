@@ -38,11 +38,16 @@ function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
                         "Content-Type": "application/json",
                         'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
                     },
+                }).then((res) => {
+                    if (res.status == 200) {
+                        return res.json();
+                    } else {
+                        return [];
+                    }
                 });
-                const activityData = await activityResponse.json();
                 
-                if (activityData.length > 0) {
-                    const data = activityData.map((item: { days: any, week: any; total: any; }) => {
+                if (activityResponse.length > 0) {
+                    const data = activityResponse.map((item: { days: any, week: any; total: any; }) => {
                         return {
                             week: item.week,
                             commits: item.total,
