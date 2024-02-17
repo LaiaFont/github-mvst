@@ -64,12 +64,12 @@ export default function Home() {
   }, [userRepos, nameValue, languageValue]);
 
   return (
-    <main className="flex min-h-screen flex-col p-24">
+    <main className="flex min-h-screen flex-col p-10">
       <SearchBar setUsername={setUsername} searchUser={searchUser} username={username} />
       <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
       
       {userExists ? (
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3">
           <UserProfile userData={userData} />
           <RepoList filteredRepos={filteredRepos} languages={languages} setNameValue={setNameValue} setLanguageValue={setLanguageValue} />
         </div>

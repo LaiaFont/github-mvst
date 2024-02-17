@@ -31,6 +31,7 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
                 width={150}
                 height={30}
                 data={repo.activity}
+                className="hidden md:block"
               >
                 <defs>
                   <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
