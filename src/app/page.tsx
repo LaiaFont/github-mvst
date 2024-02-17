@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getUser, getRepos, getLanguageColors } from "../app/services/api";
 import moment from 'moment';
 
@@ -8,7 +8,10 @@ export default function Home() {
   const [userExists, setUserExists] = useState(false);
   const [userData, setUserData] = useState({ 'avatar_url': '', 'name': '', 'bio': '', 'login': '' });
   const [userRepos, setUserRepos] = useState([]);
-  const [languageColors, setLanguageColors] = useState({});
+  const [languages, setLanguages] = useState({});
+  const [filteredRepos, setFilteredRepos] = useState({});
+  const [nameValue, setNameValue] = useState("");
+  const [languageValue, setLanguageValue] = useState("");
 
   async function searchUser(value: string) {
     try {
@@ -17,17 +20,41 @@ export default function Home() {
       setUserData(response.payload);
 
       const repos = await getRepos(response.payload.repos_url);
-      setUserRepos(repos.payload);
 
-      setLanguageColors(await getLanguageColors());
+      if (repos.success) {
+        setUserRepos(repos.payload);
+
+        let langColors = await getLanguageColors();
+        let languages: any = {};
+
+        repos.payload.forEach((repo: any) => {
+          if (repo.language) {
+            if (!languages[repo.language] && langColors[repo.language]) {
+              languages[repo.language] = langColors[repo.language];
+            }
+          }
+        });
+
+        setLanguages(languages);
+      }
+      
+
+      
     } catch (error) {
       setUserExists(false);
     }
   }
 
-  async function filterRepos() {
-    
-  }
+  useEffect(() => {
+    if (userRepos.length > 0) {
+      const filtered = userRepos.filter(
+        (repo) =>
+          repo.name.toLowerCase().includes(nameValue.toLowerCase()) &&
+          (languageValue === "all" || !languageValue || (repo.language && repo.language.toLowerCase() === languageValue.toLowerCase()))
+      );
+      setFilteredRepos(filtered);
+    }
+  }, [userRepos, nameValue, languageValue]);
 
   return (
     <main className="flex min-h-screen flex-col p-24">
@@ -65,17 +92,22 @@ export default function Home() {
               <div className="flex flex-row relative mt-2 rounded-md shadow-sm">
                 <input
                   type="text"
-                  name="username"
-                  id="username"
+                  name="repository"
+                  id="repository"
                   className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   placeholder="Find a repository..."
+                  onChange={(e) => setNameValue(e.target.value)}
                 />
-                <select className="block rounded-md border-0 mx-1 py-1.5 px-7 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200" onClick={() => filterRepos(username)}>Type</select>
-                <select className="block rounded-md border-0 mx-1 py-1.5 px-7 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200" onClick={() => filterRepos(username)}>Language</select>
+                <select className="block rounded-md border-0 mx-1 py-1.5 px-7 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200" onChange={(e) => setLanguageValue(e.target.value)}>
+                  <option key={"all"} value={"all"}>All</option>
+                  {Object.keys(languages).map((language: string) => (
+                    <option key={language} value={language}>{language}</option>
+                  ))}
+                </select>
               </div>
               <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
               <div>
-                {userRepos.map((repo: any) => (
+                {Object.values(filteredRepos).map((repo: any) => (
                   <div key={repo.id} className="flex flex-col">
                     <section className="title-section flex flex-row items-center">
                       <p className="text-lg font-bold text-blue-700 mr-2">{repo.name}</p>
@@ -89,7 +121,7 @@ export default function Home() {
                           width: "10px",
                           height: "10px",
                           borderRadius: "50%",
-                          backgroundColor: (languageColors as { [key: string]: { color: string } })[repo.language]?.color || "gray"
+                          backgroundColor: (languages[repo.language as keyof typeof languages] as { color: string } | undefined)?.color
                         }}></p>
                         <p className="text-sm">{repo.language}</p>
                       </section>
@@ -114,7 +146,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <p className="m-2 text-rose-700 text-center">The user {username} could not be found.</p>
+          <p className="m-2 text-gray-400 text-center">No results</p>
         )}
       </div>
     </main>
