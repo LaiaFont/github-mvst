@@ -21,7 +21,7 @@ function getUser(user: string): Promise<{ success: boolean, payload: any }> {
 }
 
 function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
-    return fetch(url, {
+    return fetch(url + "?per_page=100&sort=updated", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
