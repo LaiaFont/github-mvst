@@ -16,6 +16,11 @@ export default function Home() {
   const [languageValue, setLanguageValue] = useState("");
 
   async function searchUser(value: string) {
+    setUserExists(false);
+    setUserData({});
+    setUserRepos([]);
+    setFilteredRepos({});
+    
     try {
       const response = await getUser(value);
       setUserExists(response.success);
@@ -42,11 +47,6 @@ export default function Home() {
         } else {
           setLanguages({});
         }
-      } else {
-        setUserExists(false);
-        setUserData({});
-        setUserRepos([]);
-        setFilteredRepos({});
       }
     } catch (error) {
       console.log(error)

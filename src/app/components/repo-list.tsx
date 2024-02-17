@@ -11,7 +11,7 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
       languages={languages}
     />
     <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
-    <p className="text-sm">{filteredRepos.length} { filteredRepos.length > 1 ? 'results' : 'result' } found</p>
+    <p className="text-sm">{filteredRepos.length} { filteredRepos.length > 1 || filteredRepos.length == 0 ? 'results' : 'result' } found</p>
     <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
       {filteredRepos.length > 0 ? Object.values(filteredRepos).map((repo: any) => (
         <div key={repo.id} className="flex flex-col">
