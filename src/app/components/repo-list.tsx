@@ -10,8 +10,9 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
       setLanguageValue={setLanguageValue}
       languages={languages}
     />
-    <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-    <div>
+    <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
+    <p className="text-sm">{filteredRepos.length} { filteredRepos.length > 1 ? 'results' : 'result' } found</p>
+    <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
       {filteredRepos.length > 0 ? Object.values(filteredRepos).map((repo: any) => (
         <div key={repo.id} className="flex flex-col">
           <div className="flex flex-row justify-between items-start">
@@ -47,7 +48,7 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
             </section>
           </div>
           
-          <div className="info-section grid grid-cols-4">
+          <div className="info-section grid grid-cols-5">
             {repo.language ?
               <section className="language-section flex flex-row items-center mr-3">
                 <p
@@ -122,9 +123,9 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
               : ""}
             
           </div>
-          <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+          <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
         </div>
       )): <p className="m-2 text-gray-400 text-center">No available repositories</p>}
-    </div>
+    
   </div>
 );

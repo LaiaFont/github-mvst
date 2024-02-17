@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col p-24">
       <SearchBar setUsername={setUsername} searchUser={searchUser} username={username} />
-      <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+      <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
       
       {userExists ? (
         <div className="grid grid-cols-3">
