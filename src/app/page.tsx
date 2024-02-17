@@ -8,7 +8,7 @@ import { RepoList } from './components/repo-list';
 export default function Home() {
   const [username, setUsername] = useState("");
   const [userExists, setUserExists] = useState(false);
-  const [userData, setUserData] = useState({ 'avatar_url': '', 'name': '', 'bio': '', 'login': '' });
+  const [userData, setUserData] = useState({});
   const [userRepos, setUserRepos] = useState([]);
   const [languages, setLanguages] = useState({});
   const [filteredRepos, setFilteredRepos] = useState({});
@@ -26,36 +26,41 @@ export default function Home() {
       if (repos.success) {
         setUserRepos(repos.payload);
 
-        let langColors = await getLanguageColors();
-        let languages: any = {};
+        if (repos.payload.length > 0) {
+          let langColors = await getLanguageColors();
+          let languages: any = {};
 
-        repos.payload.forEach((repo: any) => {
-          if (repo.language) {
-            if (!languages[repo.language] && langColors[repo.language]) {
-              languages[repo.language] = langColors[repo.language];
+          repos.payload.forEach((repo: any) => {
+            if (repo.language) {
+              if (!languages[repo.language] && langColors[repo.language]) {
+                languages[repo.language] = langColors[repo.language];
+              }
             }
-          }
-        });
+          });
 
-        setLanguages(languages);
+          setLanguages(languages);
+        } else {
+          setLanguages({});
+        }
+      } else {
+        setUserExists(false);
+        setUserData({});
+        setUserRepos([]);
+        setFilteredRepos({});
       }
-      
-
-      
     } catch (error) {
-      setUserExists(false);
+      console.log(error)
     }
   }
 
   useEffect(() => {
-    if (userRepos.length > 0) {
-      const filtered = userRepos.filter(
-        (repo) =>
-          repo.name.toLowerCase().includes(nameValue.toLowerCase()) &&
-          (languageValue === "all" || !languageValue || (repo.language && repo.language.toLowerCase() === languageValue.toLowerCase()))
-      );
-      setFilteredRepos(filtered);
-    }
+    const filtered = userRepos.filter(
+      (repo) =>
+        repo.name.toLowerCase().includes(nameValue.toLowerCase()) &&
+        (languageValue === "all" || !languageValue || (repo.language && repo.language.toLowerCase() === languageValue.toLowerCase()))
+    );
+    setFilteredRepos(filtered);
+    
   }, [userRepos, nameValue, languageValue]);
 
   return (
