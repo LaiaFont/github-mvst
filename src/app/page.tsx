@@ -9,7 +9,7 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [userExists, setUserExists] = useState(false);
   const [userData, setUserData] = useState({});
-  const [userRepos, setUserRepos] = useState([]);
+  const [userRepos, setUserRepos] = useState<any[]>([]);
   const [languages, setLanguages] = useState({});
   const [filteredRepos, setFilteredRepos] = useState({});
   const [nameValue, setNameValue] = useState("");
