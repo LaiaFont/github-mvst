@@ -26,7 +26,7 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
               <p className="text-sm mt-1">{repo.description}</p>
             </section>
             <section className="activity-section flex flex-col items-end">
-              <button className="w-1/2 flex flex-row items-center rounded-md border-0 px-2 py-1 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200"><FaRegStar className="mr-2"/>Star</button>
+              <button className="flex flex-row items-center rounded-md border-0 px-2 py-1 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200"><FaRegStar className="mr-2"/>Star</button>
               <LineChart
                 width={150}
                 height={30}
@@ -49,7 +49,7 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
             </section>
           </div>
           
-          <div className="info-section grid grid-cols-5">
+          <div className="info-section flex flex-col md:grid md:grid-cols-5">
             {repo.language ?
               <section className="language-section flex flex-row items-center mr-3">
                 <p
@@ -126,7 +126,7 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
           </div>
           <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
         </div>
-      )): <p className="m-2 text-gray-400 text-center">No available repositories</p>}
+      )) : <p className="m-2 text-gray-400 text-center">No available repositories</p>}
     
   </div>
 );
