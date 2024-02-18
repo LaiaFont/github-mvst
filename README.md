@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app), for the MVST Full Stack Interview process.
+## Description
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) using Tailwind CSS for styling, for the MVST Full Stack Interview process.
 
 ## How to run it
 First, clone the repository and on its directory run in order to install the necessary libraries:
