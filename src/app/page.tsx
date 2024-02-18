@@ -9,6 +9,7 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [userExists, setUserExists] = useState(false);
   const [userData, setUserData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [userRepos, setUserRepos] = useState<any[]>([]);
   const [languages, setLanguages] = useState({});
   const [filteredRepos, setFilteredRepos] = useState({});
@@ -16,40 +17,47 @@ export default function Home() {
   const [languageValue, setLanguageValue] = useState("");
 
   async function searchUser(value: string) {
+    setUserExists(false);
+    setUserData({});
+    setUserRepos([]);
+    setFilteredRepos({});
+
     try {
       const response = await getUser(value);
+      console.log(response);
       setUserExists(response.success);
       setUserData(response.payload);
 
-      const repos = await getRepos(response.payload.repos_url);
+      if (response.success) {
+        setIsLoading(true);
+        const repos = await getRepos(response.payload.repos_url);
 
-      if (repos.success) {
-        setUserRepos(repos.payload);
+        if (repos.success) {
+          setUserRepos(repos.payload);
 
-        if (repos.payload.length > 0) {
-          let langColors = await getLanguageColors();
-          let languages: any = {};
+          if (repos.payload.length > 0) {
+            let langColors = await getLanguageColors();
+            let languages: any = {};
 
-          repos.payload.forEach((repo: any) => {
-            if (repo.language) {
-              if (!languages[repo.language] && langColors[repo.language]) {
-                languages[repo.language] = langColors[repo.language];
+            repos.payload.forEach((repo: any) => {
+              if (repo.language) {
+                if (!languages[repo.language] && langColors[repo.language]) {
+                  languages[repo.language] = langColors[repo.language];
+                }
               }
-            }
-          });
+            });
 
-          setLanguages(languages);
-        } else {
-          setLanguages({});
+            setLanguages(languages);
+            setIsLoading(false);
+          } else {
+            setLanguages({});
+            setIsLoading(false);
+          }
         }
-      } else {
-        setUserExists(false);
-        setUserData({});
-        setUserRepos([]);
-        setFilteredRepos({});
       }
     } catch (error) {
       console.log(error)
+      setIsLoading(false);
     }
   }
 
@@ -60,18 +68,22 @@ export default function Home() {
         (languageValue === "all" || !languageValue || (repo.language && repo.language.toLowerCase() === languageValue.toLowerCase()))
     );
     setFilteredRepos(filtered);
-    
+
   }, [userRepos, nameValue, languageValue]);
 
   return (
-    <main className="flex min-h-screen flex-col p-24">
+    <main className="flex min-h-screen flex-col p-10">
       <SearchBar setUsername={setUsername} searchUser={searchUser} username={username} />
-      <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-      
+      <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
+
       {userExists ? (
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3">
           <UserProfile userData={userData} />
-          <RepoList filteredRepos={filteredRepos} languages={languages} setNameValue={setNameValue} setLanguageValue={setLanguageValue} />
+          {isLoading ?
+            <p className="m-2 text-gray-400 text-center">Loading data...</p>
+            :
+            <RepoList isLoading={isLoading} filteredRepos={filteredRepos} languages={languages} setNameValue={setNameValue} setLanguageValue={setLanguageValue} />
+          }
         </div>
       ) : (
         <p className="m-2 text-gray-400 text-center">No results</p>

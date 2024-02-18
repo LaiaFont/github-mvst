@@ -1,8 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Description
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) using Tailwind CSS for styling, for the MVST Full Stack Interview process.
 
-## Getting Started
+## How to run it
+First, clone the repository and on its directory run in order to install the necessary libraries:
+```
+npm install
+```
 
-First, run the development server:
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -14,20 +19,20 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Lastly, open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to test it
+In order to test the results, you can search for these different users.
+* LaiaFont - Normal user
+* Laia - No repositories
+* asdfeeff - Doesn't exist
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Future improvements
+The API calls are now done a service file, which is called by the main page file. This could be improved by adding a controller file which gives the necessary information to the different pages.
 
-## Learn More
+Another important improvement would be working with multiple pages, since the API returns a maximum of a 100 repositories, if there are more in different pages. This can be solved by adding pagination to the page and calling the API dynamically, loading the needed repositories for the specified page.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Lastly, I would improve the loading times of the graphs since it takes a long time, it exponentially increases together with the amount of repositories it has to load data for.
 
 ## Deploy on Vercel
 

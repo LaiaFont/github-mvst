@@ -3,51 +3,54 @@ import moment from 'moment';
 import { FaRegStar } from 'react-icons/fa6';
 import { LineChart, AreaChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageValue }: { filteredRepos: any, languages: any, setNameValue: any, setLanguageValue: any }) => (
+export const RepoList = ({ isLoading, filteredRepos, languages, setNameValue, setLanguageValue }: { isLoading: boolean, filteredRepos: any, languages: any, setNameValue: any, setLanguageValue: any }) => (
   <div className="col-span-2">
     <FilterBar
       setNameValue={setNameValue}
       setLanguageValue={setLanguageValue}
       languages={languages}
     />
-    <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-    <div>
-      {filteredRepos.length > 0 ? Object.values(filteredRepos).map((repo: any) => (
+    <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
+    <p className="text-sm">{filteredRepos.length} { filteredRepos.length > 1 || filteredRepos.length == 0 ? 'results' : 'result' } found</p>
+    <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
+    {filteredRepos.length > 0 ?
+      Object.values(filteredRepos).map((repo: any) => (
         <div key={repo.id} className="flex flex-col">
           <div className="flex flex-row justify-between items-start">
             <section className="flex flex-col mb-2">
               <section className="title-section flex flex-row items-center">
-              <p className="text-lg font-bold text-blue-700 mr-2">{repo.name}</p>
+                <p className="text-lg font-bold text-blue-700 mr-2">{repo.name}</p>
                 <p className="text-xs font-bold px-1.5 text-gray-400 capitalize ring-1 ring-gray-400 rounded-full">
-                {repo.visibility}
+                  {repo.visibility}
                 </p>
               </section>
               <p className="text-sm mt-1">{repo.description}</p>
             </section>
             <section className="activity-section flex flex-col items-end">
-              <button className="w-1/2 flex flex-row items-center rounded-md border-0 px-2 py-1 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200"><FaRegStar className="mr-2"/>Star</button>
+              <button className="flex flex-row items-center rounded-md border-0 px-2 py-1 text-gray-900 ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 focus:bg-gray-200"><FaRegStar className="mr-2" />Star</button>
               <LineChart
                 width={150}
                 height={30}
                 data={repo.activity}
+                className="hidden md:block"
               >
                 <defs>
                   <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#216e39" stopOpacity={1}/>
-                    <stop offset="95%" stopColor="#9be9a8" stopOpacity={1}/>
+                    <stop offset="5%" stopColor="#216e39" stopOpacity={1} />
+                    <stop offset="95%" stopColor="#9be9a8" stopOpacity={1} />
                   </linearGradient>
                 </defs>
                 {repo.activity.every((item: { week: any, commits: number; }) => item.commits === 0) ? (
-                    <Line type="monotone" dataKey="commits" stroke="#9be9a8" dot={false} strokeWidth={2} />
-                  ) : (
-                    <Line type="monotone" dataKey="commits" stroke="url(#gradient)" dot={false} strokeWidth={2} />
-                  )
+                  <Line type="monotone" dataKey="commits" stroke="#9be9a8" dot={false} strokeWidth={2} />
+                ) : (
+                  <Line type="monotone" dataKey="commits" stroke="url(#gradient)" dot={false} strokeWidth={2} />
+                )
                 }
-              </LineChart>    
+              </LineChart>
             </section>
           </div>
-          
-          <div className="info-section grid grid-cols-4">
+
+          <div className="info-section flex flex-col md:grid md:grid-cols-5">
             {repo.language ?
               <section className="language-section flex flex-row items-center mr-3">
                 <p
@@ -58,16 +61,16 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
                     borderRadius: "50%",
                     backgroundColor: (
                       languages[repo.language as keyof typeof languages] as
-                        | { color: string }
-                        | undefined
+                      | { color: string }
+                      | undefined
                     )?.color,
                   }}
                 ></p>
                 <p className="text-sm">{repo.language}</p>
               </section>
-            : ""}
-            
-            {repo.forks_count ? 
+              : ""}
+
+            {repo.forks_count ?
               <section className="forks-section flex flex-row items-center mr-3">
                 {repo.forks_count > 0 ? (
                   <>
@@ -89,9 +92,9 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
                   ""
                 )}
               </section>
-            : ""}
-            
-            {repo.stargazers_count ? 
+              : ""}
+
+            {repo.stargazers_count ?
               <section className="starred-section flex flex-row items-center mr-3">
                 {repo.stargazers_count > 0 ? (
                   <>
@@ -113,18 +116,17 @@ export const RepoList = ({ filteredRepos, languages, setNameValue, setLanguageVa
                   ""
                 )}
               </section>
-            : ""}
-            
-            {repo.updated_at ? 
+              : ""}
+
+            {repo.updated_at ?
               <p className="text-sm mr-3">
                 Updated {moment(repo.updated_at).fromNow()}
               </p>
               : ""}
-            
+
           </div>
-          <hr className="my-5 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+          <hr className="my-5 h-0.5 border-t-0 bg-neutral-100" />
         </div>
-      )): <p className="m-2 text-gray-400 text-center">No available repositories</p>}
-    </div>
+      )) : <p className="m-2 text-gray-400 text-center">No available repositories</p>}
   </div>
 );

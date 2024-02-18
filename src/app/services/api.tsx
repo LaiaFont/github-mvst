@@ -12,7 +12,11 @@ function getUser(user: string): Promise<{ success: boolean, payload: any }> {
         .then((res) => res.json())
         .then(
             (result) => {
-                return { 'success': true, 'payload': result };
+                if (result.login) {
+                    return { 'success': true, 'payload': result };
+                }
+
+                return { 'success': false, 'payload': result };
             },
             (error) => {
                 return { 'success': false, 'payload': error };
@@ -21,7 +25,7 @@ function getUser(user: string): Promise<{ success: boolean, payload: any }> {
 }
 
 function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
-    return fetch(url, {
+    return fetch(url + "?per_page=100&sort=updated", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -38,11 +42,16 @@ function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
                         "Content-Type": "application/json",
                         'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
                     },
+                }).then((res) => {
+                    if (res.status == 200) {
+                        return res.json();
+                    } else {
+                        return [];
+                    }
                 });
-                const activityData = await activityResponse.json();
                 
-                if (activityData.length > 0) {
-                    const data = activityData.map((item: { days: any, week: any; total: any; }) => {
+                if (activityResponse.length > 0) {
+                    const data = activityResponse.map((item: { days: any, week: any; total: any; }) => {
                         return {
                             week: item.week,
                             commits: item.total,
