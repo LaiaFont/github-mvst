@@ -1,12 +1,22 @@
 import moment from 'moment';
 
 function getUser(user: string): Promise<{ success: boolean, payload: any }> {
-    return fetch("https://api.github.com/users/" + user, {
-        method: "GET",
-        headers: {
+    let headers = {};
+
+    if (process.env.NEXT_PUBLIC_API_TOKEN !== undefined) {
+        headers = {
             "Content-Type": "application/json",
             'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
-        },
+        };
+    } else {
+        headers = {
+            "Content-Type": "application/json"
+        };
+    }
+
+    return fetch("https://api.github.com/users/" + user, {
+        method: "GET",
+        headers: headers,
 
     })
         .then((res) => res.json())
@@ -25,12 +35,22 @@ function getUser(user: string): Promise<{ success: boolean, payload: any }> {
 }
 
 function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
-    return fetch(url + "?per_page=100&sort=updated", {
-        method: "GET",
-        headers: {
+    let headers = {};
+
+    if (process.env.NEXT_PUBLIC_API_TOKEN !== undefined) {
+        headers = {
             "Content-Type": "application/json",
             'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
-        },
+        };
+    } else {
+        headers = {
+            "Content-Type": "application/json"
+        };
+    }
+
+    return fetch(url + "?per_page=100&sort=updated", {
+        method: "GET",
+        headers: headers,
     }).then((res) => res.json())
     .then(
         async (result) => {
