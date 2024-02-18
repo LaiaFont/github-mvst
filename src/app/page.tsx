@@ -24,32 +24,35 @@ export default function Home() {
 
     try {
       const response = await getUser(value);
+      console.log(response);
       setUserExists(response.success);
       setUserData(response.payload);
 
-      setIsLoading(true);
-      const repos = await getRepos(response.payload.repos_url);
+      if (response.success) {
+        setIsLoading(true);
+        const repos = await getRepos(response.payload.repos_url);
 
-      if (repos.success) {
-        setUserRepos(repos.payload);
+        if (repos.success) {
+          setUserRepos(repos.payload);
 
-        if (repos.payload.length > 0) {
-          let langColors = await getLanguageColors();
-          let languages: any = {};
+          if (repos.payload.length > 0) {
+            let langColors = await getLanguageColors();
+            let languages: any = {};
 
-          repos.payload.forEach((repo: any) => {
-            if (repo.language) {
-              if (!languages[repo.language] && langColors[repo.language]) {
-                languages[repo.language] = langColors[repo.language];
+            repos.payload.forEach((repo: any) => {
+              if (repo.language) {
+                if (!languages[repo.language] && langColors[repo.language]) {
+                  languages[repo.language] = langColors[repo.language];
+                }
               }
-            }
-          });
+            });
 
-          setLanguages(languages);
-          setIsLoading(false);
-        } else {
-          setLanguages({});
-          setIsLoading(false);
+            setLanguages(languages);
+            setIsLoading(false);
+          } else {
+            setLanguages({});
+            setIsLoading(false);
+          }
         }
       }
     } catch (error) {
@@ -83,7 +86,6 @@ export default function Home() {
           }
         </div>
       ) : (
-
         <p className="m-2 text-gray-400 text-center">No results</p>
       )}
     </main>

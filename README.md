@@ -20,6 +20,12 @@ bun dev
 
 Lastly, open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## How to test it
+In order to test the results, you can search for these different users.
+* LaiaFont - Normal user
+* Laia - No repositories
+* asdfeeff - Doesn't exist
+
 ## Future improvements
 The API calls are now done a service file, which is called by the main page file. This could be improved by adding a controller file which gives the necessary information to the different pages.
 

@@ -12,7 +12,11 @@ function getUser(user: string): Promise<{ success: boolean, payload: any }> {
         .then((res) => res.json())
         .then(
             (result) => {
-                return { 'success': true, 'payload': result };
+                if (result.login) {
+                    return { 'success': true, 'payload': result };
+                }
+
+                return { 'success': false, 'payload': result };
             },
             (error) => {
                 return { 'success': false, 'payload': error };
