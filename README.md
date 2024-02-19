@@ -30,7 +30,7 @@ In order to test the results, you can search for these different users.
 * asdfeeff - Doesn't exist
 
 ## Future improvements
-The API calls are now done a service file, which is called by the main page file. This could be improved by adding a controller file which gives the necessary information to the different pages.
+The API calls are now done on a service file, which is called by the main page file. This could be improved by adding a controller file which gives the necessary information to the different pages.
 
 Another important improvement would be working with multiple pages, since the API returns a maximum of a 100 repositories, if there are more in different pages. This can be solved by adding pagination to the page and calling the API dynamically, loading the needed repositories for the specified page.
 
