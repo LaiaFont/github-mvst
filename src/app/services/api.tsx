@@ -68,10 +68,7 @@ function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
                 const activity_url = result[i].url + "/stats/commit_activity";
                 const activityResponse = await fetch(activity_url, {
                     method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_API_TOKEN
-                    },
+                    headers: headers,
                 }).then((res) => {
                     if (res.status == 200) {
                         return res.json();
