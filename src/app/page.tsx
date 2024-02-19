@@ -16,7 +16,12 @@ export default function Home() {
   const [nameValue, setNameValue] = useState("");
   const [languageValue, setLanguageValue] = useState("");
 
-  async function searchUser(value: string) {
+  /**
+   * This function is responsible for searching the user and its repositories, with their respective activity.
+   * @param value - The username to be searched.
+   * @returns {void}
+  */
+  async function searchUser(value: string) {    
     setUserExists(false);
     setUserData({});
     setUserRepos([]);
@@ -61,6 +66,9 @@ export default function Home() {
     }
   }
 
+  /**
+   * This useEffect is responsible of filtering the repositories by name and language, when theses values are changed.
+  */
   useEffect(() => {
     const filtered = userRepos.filter(
       (repo) =>

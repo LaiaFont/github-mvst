@@ -1,5 +1,10 @@
 import moment from 'moment';
 
+/**
+ * This function is responsible for fetching the user information.
+ * @param user - The username to be searched.
+ * @returns Promise<{ success: boolean, payload: any }>
+ */
 function getUser(user: string): Promise<{ success: boolean, payload: any }> {
     let headers = {};
 
@@ -34,6 +39,11 @@ function getUser(user: string): Promise<{ success: boolean, payload: any }> {
         );
 }
 
+/**
+ * This function is responsible for fetching the repository information of a user with its activities.
+ * @param url - The repository url based on the user.
+ * @returns Promise<{ success: boolean, payload: any }>
+ */
 function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
     let headers = {};
 
@@ -93,7 +103,10 @@ function getRepos(url: string): Promise<{ success: boolean, payload: any }> {
     );
 }
 
-
+/**
+ * This function is responsible for fetching the color of the languages used in the repositories.
+ * @returns Promise<any>
+ */
 function getLanguageColors(): Promise<any> {
     return fetch('https://raw.githubusercontent.com/ozh/github-colors/master/colors.json')
         .then((res) => res.json());
