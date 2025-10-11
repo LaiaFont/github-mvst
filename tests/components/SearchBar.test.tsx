@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { SearchBar } from '@/app/components/search-bar';
-import '@testing-library/jest-dom/vitest';
+import { render, screen } from '@testing-library/react'
+import { SearchBar } from '../../src/app/components/search-bar';
 
 describe('SearchBar', () => {
-    it('should render a search bar and return a value when name is provided', () => {
+    it('should load the input search bar', () => {
         render(<SearchBar />);
         
         const input = screen.getByRole('input');
