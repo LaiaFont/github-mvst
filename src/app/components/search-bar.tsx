@@ -1,4 +1,4 @@
-export const SearchBar = ({ setUsername, searchUser, username }: { setUsername: any, searchUser: any, username: string }) => (
+export const SearchBar = ({ setUsername, searchUser, username }: { setUsername?: any, searchUser?: any, username?: string }) => (
     <div>
         <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
             Enter a GitHub Username
